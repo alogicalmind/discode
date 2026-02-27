@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Examples — DisCode</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .examples-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .example-block {}
+
+    .example-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .example-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--purple-light);
+      background: rgba(128,107,215,0.1);
+      border: 1px solid rgba(128,107,215,0.25);
+      border-radius: 6px;
+      padding: 0.22rem 0.55rem;
+      flex-shrink: 0;
+    }
+
+    .example-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .example-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 680px;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Code block */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid rgba(128,107,215,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .code-header {
+      background: var(--surface2);
+      padding: 0.65rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(128,107,215,0.1);
+    }
+
+    .code-dots { display: flex; gap: 0.4rem; }
+    .code-dot  { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red    { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green  { background: #28c840; }
+
+    .code-filename {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .copy-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: 1px solid rgba(128,107,215,0.2);
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .copy-btn:hover { color: var(--text); border-color: var(--purple-light); }
+    .copy-btn.copied { color: #52c77f; border-color: #52c77f; }
+
+    pre {
+      padding: 1.5rem;
+      overflow-x: auto;
+      line-height: 1.9;
+      color: var(--text);
+      font-size: 0.8rem;
+    }
+
+    .c-comment { color: #4d5180; }
+    .c-keyword  { color: #c678dd; }
+    .c-string   { color: #98c379; }
+    .c-method   { color: #61afef; }
+    .c-var      { color: #e06c75; }
+    .c-prop     { color: #d19a66; }
+    .c-num      { color: #d19a66; }
+
+    @media (max-width: 768px) {
+      pre { font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">DisCode</a>
+    <ul class="nav-links">
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="essentials.html">Essentials</a></li>
+      <li><a href="examples.html" class="active">Examples</a></li>
+      <li><a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener" class="nav-cta">GitHub</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="guides.html" class="m-link">Guides</a>
+    <a href="essentials.html" class="m-link">Essentials</a>
+    <a href="examples.html" class="m-link active">Examples</a>
+    <a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener" class="m-cta">GitHub</a>
+  </div>
+
+  <div class="page">
+    <div class="page-hero">
+      <div class="section-label">// examples</div>
+      <h1>Code you can<br><span class="gradient">copy &amp; build on</span></h1>
+      <p>Ready-to-use discord.js v14 snippets. Every example is minimal, annotated, and production-safe.</p>
+    </div>
+
+    <div class="content">
+      <div class="examples-list">
+
+        <!-- 01 -->
+        <div class="example-block">
+          <div class="example-meta">
+            <span class="example-num">01</span>
+            <span class="example-title">Bot Skeleton</span>
+          </div>
+          <p class="example-desc">The minimal starting point — creates a Client, listens for <code class="ic">ready</code>, and logs in. Everything else builds on top of this.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+              <span class="code-filename">index.js</span>
+              <button class="copy-btn" data-target="code1">Copy</button>
+            </div>
+            <pre id="code1"><span class="c-keyword">import</span> { Client, GatewayIntentBits, Events } <span class="c-keyword">from</span> <span class="c-string">'discord.js'</span>;
+<span class="c-keyword">import</span> <span class="c-string">'dotenv/config'</span>;
+
+<span class="c-keyword">const</span> <span class="c-var">client</span> = <span class="c-keyword">new</span> Client({
+  <span class="c-prop">intents</span>: [GatewayIntentBits.Guilds],
+});
+
+<span class="c-var">client</span>.<span class="c-method">once</span>(Events.ClientReady, <span class="c-var">c</span> =&gt; {
+  console.<span class="c-method">log</span>(<span class="c-string">`✅ Logged in as <span class="c-var">${c.user.tag}</span>`</span>);
+});
+
+<span class="c-var">client</span>.<span class="c-method">login</span>(process.env.<span class="c-prop">DISCORD_TOKEN</span>);</pre>
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="example-block">
+          <div class="example-meta">
+            <span class="example-num">02</span>
+            <span class="example-title">Registering Slash Commands</span>
+          </div>
+          <p class="example-desc">Run this script once to register your commands with Discord. Use guild-scoped commands during development (instant update) and global for production.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+              <span class="code-filename">deploy-commands.js</span>
+              <button class="copy-btn" data-target="code2">Copy</button>
+            </div>
+            <pre id="code2"><span class="c-keyword">import</span> { REST, Routes, SlashCommandBuilder } <span class="c-keyword">from</span> <span class="c-string">'discord.js'</span>;
+<span class="c-keyword">import</span> <span class="c-string">'dotenv/config'</span>;
+
+<span class="c-keyword">const</span> <span class="c-var">commands</span> = [
+  <span class="c-keyword">new</span> <span class="c-method">SlashCommandBuilder</span>()
+    .<span class="c-method">setName</span>(<span class="c-string">'ping'</span>)
+    .<span class="c-method">setDescription</span>(<span class="c-string">'Replies with Pong!'</span>),
+  <span class="c-keyword">new</span> <span class="c-method">SlashCommandBuilder</span>()
+    .<span class="c-method">setName</span>(<span class="c-string">'hello'</span>)
+    .<span class="c-method">setDescription</span>(<span class="c-string">'Says hello to you'</span>),
+].<span class="c-method">map</span>(<span class="c-var">cmd</span> =&gt; <span class="c-var">cmd</span>.<span class="c-method">toJSON</span>());
+
+<span class="c-keyword">const</span> <span class="c-var">rest</span> = <span class="c-keyword">new</span> <span class="c-method">REST</span>().<span class="c-method">setToken</span>(process.env.<span class="c-prop">DISCORD_TOKEN</span>);
+
+<span class="c-keyword">await</span> <span class="c-var">rest</span>.<span class="c-method">put</span>(
+  <span class="c-method">Routes</span>.<span class="c-method">applicationGuildCommands</span>(
+    process.env.<span class="c-prop">CLIENT_ID</span>,
+    process.env.<span class="c-prop">GUILD_ID</span>   <span class="c-comment">// remove for global</span>
+  ),
+  { <span class="c-prop">body</span>: <span class="c-var">commands</span> }
+);
+
+console.<span class="c-method">log</span>(<span class="c-string">'✅ Commands registered.'</span>);</pre>
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="example-block">
+          <div class="example-meta">
+            <span class="example-num">03</span>
+            <span class="example-title">Handling Interactions</span>
+          </div>
+          <p class="example-desc">The <code class="ic">interactionCreate</code> event fires for every slash command, button press, and select menu. Route to the right handler by checking the interaction type first.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+              <span class="code-filename">index.js</span>
+              <button class="copy-btn" data-target="code3">Copy</button>
+            </div>
+            <pre id="code3"><span class="c-var">client</span>.<span class="c-method">on</span>(Events.InteractionCreate, <span class="c-keyword">async</span> <span class="c-var">interaction</span> =&gt; {
+  <span class="c-comment">// Slash commands</span>
+  <span class="c-keyword">if</span> (<span class="c-var">interaction</span>.<span class="c-method">isChatInputCommand</span>()) {
+    <span class="c-keyword">if</span> (<span class="c-var">interaction</span>.<span class="c-prop">commandName</span> === <span class="c-string">'ping'</span>) {
+      <span class="c-keyword">await</span> <span class="c-var">interaction</span>.<span class="c-method">reply</span>({
+        <span class="c-prop">content</span>: <span class="c-string">`🏓 Pong! Latency: <span class="c-var">${client.ws.ping}</span>ms`</span>,
+        <span class="c-prop">ephemeral</span>: <span class="c-keyword">true</span>,
+      });
+    }
+    <span class="c-keyword">if</span> (<span class="c-var">interaction</span>.<span class="c-prop">commandName</span> === <span class="c-string">'hello'</span>) {
+      <span class="c-keyword">await</span> <span class="c-var">interaction</span>.<span class="c-method">reply</span>(
+        <span class="c-string">`👋 Hey, <span class="c-var">${interaction.user.displayName}</span>!`</span>
+      );
+    }
+  }
+
+  <span class="c-comment">// Button interactions</span>
+  <span class="c-keyword">if</span> (<span class="c-var">interaction</span>.<span class="c-method">isButton</span>()) {
+    <span class="c-keyword">await</span> <span class="c-var">interaction</span>.<span class="c-method">reply</span>({
+      <span class="c-prop">content</span>: <span class="c-string">`You clicked: <span class="c-var">${interaction.customId}</span>`</span>,
+      <span class="c-prop">ephemeral</span>: <span class="c-keyword">true</span>,
+    });
+  }
+});</pre>
+          </div>
+        </div>
+
+        <!-- 04 -->
+        <div class="example-block">
+          <div class="example-meta">
+            <span class="example-num">04</span>
+            <span class="example-title">Embed Message</span>
+          </div>
+          <p class="example-desc">Embeds let you send rich, formatted messages with titles, descriptions, colours, fields, and footers. This is how most bots display structured info.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+              <span class="code-filename">embed-example.js</span>
+              <button class="copy-btn" data-target="code4">Copy</button>
+            </div>
+            <pre id="code4"><span class="c-keyword">import</span> { EmbedBuilder } <span class="c-keyword">from</span> <span class="c-string">'discord.js'</span>;
+
+<span class="c-keyword">const</span> <span class="c-var">embed</span> = <span class="c-keyword">new</span> <span class="c-method">EmbedBuilder</span>()
+  .<span class="c-method">setTitle</span>(<span class="c-string">'Server Stats'</span>)
+  .<span class="c-method">setDescription</span>(<span class="c-string">'Here is a snapshot of the server.'</span>)
+  .<span class="c-method">setColor</span>(<span class="c-num">0x806BD7</span>)
+  .<span class="c-method">addFields</span>(
+    { <span class="c-prop">name</span>: <span class="c-string">'Members'</span>, <span class="c-prop">value</span>: <span class="c-string">'1,204'</span>, <span class="c-prop">inline</span>: <span class="c-keyword">true</span> },
+    { <span class="c-prop">name</span>: <span class="c-string">'Online'</span>,  <span class="c-prop">value</span>: <span class="c-string">'312'</span>,   <span class="c-prop">inline</span>: <span class="c-keyword">true</span> },
+  )
+  .<span class="c-method">setFooter</span>({ <span class="c-prop">text</span>: <span class="c-string">'DisCode Bot'</span> })
+  .<span class="c-method">setTimestamp</span>();
+
+<span class="c-comment">// Inside an interaction handler:</span>
+<span class="c-keyword">await</span> <span class="c-var">interaction</span>.<span class="c-method">reply</span>({ <span class="c-prop">embeds</span>: [<span class="c-var">embed</span>] });</pre>
+          </div>
+        </div>
+
+        <!-- 05 -->
+        <div class="example-block">
+          <div class="example-meta">
+            <span class="example-num">05</span>
+            <span class="example-title">Button Row</span>
+          </div>
+          <p class="example-desc">Attach buttons to any message using <code class="ic">ActionRowBuilder</code>. Each button has a <code class="ic">customId</code> you read in your <code class="ic">interactionCreate</code> listener.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-dots"><div class="code-dot dot-red"></div><div class="code-dot dot-yellow"></div><div class="code-dot dot-green"></div></div>
+              <span class="code-filename">button-example.js</span>
+              <button class="copy-btn" data-target="code5">Copy</button>
+            </div>
+            <pre id="code5"><span class="c-keyword">import</span> { ActionRowBuilder, ButtonBuilder, ButtonStyle } <span class="c-keyword">from</span> <span class="c-string">'discord.js'</span>;
+
+<span class="c-keyword">const</span> <span class="c-var">confirm</span> = <span class="c-keyword">new</span> <span class="c-method">ButtonBuilder</span>()
+  .<span class="c-method">setCustomId</span>(<span class="c-string">'confirm'</span>)
+  .<span class="c-method">setLabel</span>(<span class="c-string">'Confirm'</span>)
+  .<span class="c-method">setStyle</span>(ButtonStyle.Success);
+
+<span class="c-keyword">const</span> <span class="c-var">cancel</span> = <span class="c-keyword">new</span> <span class="c-method">ButtonBuilder</span>()
+  .<span class="c-method">setCustomId</span>(<span class="c-string">'cancel'</span>)
+  .<span class="c-method">setLabel</span>(<span class="c-string">'Cancel'</span>)
+  .<span class="c-method">setStyle</span>(ButtonStyle.Danger);
+
+<span class="c-keyword">const</span> <span class="c-var">row</span> = <span class="c-keyword">new</span> <span class="c-method">ActionRowBuilder</span>().<span class="c-method">addComponents</span>(<span class="c-var">confirm</span>, <span class="c-var">cancel</span>);
+
+<span class="c-keyword">await</span> <span class="c-var">interaction</span>.<span class="c-method">reply</span>({
+  <span class="c-prop">content</span>: <span class="c-string">'Are you sure?'</span>,
+  <span class="c-prop">components</span>: [<span class="c-var">row</span>],
+  <span class="c-prop">ephemeral</span>: <span class="c-keyword">true</span>,
+});</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        DisCode &nbsp;·&nbsp;
+        <a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener">github.com/alogicalmind/discode</a>
+        &nbsp;·&nbsp; Built with 💜
+      </div>
+      <a href="https://discord.gg/YOUR_INVITE_CODE" class="discord-invite" target="_blank" rel="noopener">
+        <svg width="14" height="11" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.719.455a.22.22 0 0 0-.23.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0a37.32 37.32 0 0 0-1.827-3.697.228.228 0 0 0-.23-.11A58.42 58.42 0 0 0 11.014 4.9a.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.39a.244.244 0 0 0 .093.167c6.073 4.46 11.955 7.166 17.729 8.952a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .232.028c.356.293.728.593 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.786 11.684-4.492 17.757-8.952a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.412a.18.18 0 0 0-.093-.084ZM23.725 37.307c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.583 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Zm23.591 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.825-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Z" fill="#5865F2"/></svg>
+        Join DisCode on Discord
+      </a>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pre = document.getElementById(btn.dataset.target);
+        navigator.clipboard.writeText(pre.innerText).then(() => {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
