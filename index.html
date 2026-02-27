@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DisCode — Discord Bot Development</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple-light: #806bd7;
+      --purple-dark: #1f258b;
+      --bg: #0b0d1a;
+      --surface: #12162b;
+      --surface2: #1a1f3a;
+      --text: #e8e6f7;
+      --muted: #7a789a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: rgba(11,13,26,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(128,107,215,0.15);
+    }
+
+    .logo {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--purple-light), #b8a8f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--purple-light), var(--purple-dark));
+      color: white !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 201;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile overlay menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11,13,26,0.97);
+      z-index: 150;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+    .mobile-menu a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--purple-light); }
+
+    .mobile-menu .m-cta {
+      font-size: 1rem !important;
+      background: linear-gradient(135deg, var(--purple-light), var(--purple-dark));
+      color: white !important;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(128,107,215,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(128,107,215,0.045) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: min(900px, 150vw);
+      height: min(900px, 150vw);
+      background: radial-gradient(circle, rgba(128,107,215,0.18) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(128,107,215,0.12);
+      border: 1px solid rgba(128,107,215,0.3);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--purple-light);
+      margin-bottom: 1.8rem;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #5865f2;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #5865f2;
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 10vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.4rem;
+      animation: fadeDown 0.6s 0.1s ease both;
+    }
+
+    h1 .gradient {
+      background: linear-gradient(135deg, var(--purple-light) 0%, #c8b8ff 40%, var(--purple-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+      animation: fadeDown 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeDown 0.6s 0.3s ease both;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple-light), var(--purple-dark));
+      color: white;
+      box-shadow: 0 4px 24px rgba(128,107,215,0.4);
+    }
+
+    .btn-primary:hover { box-shadow: 0 8px 32px rgba(128,107,215,0.6); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-ghost:hover { border-color: var(--purple-light); color: var(--purple-light); }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 5rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--purple-light);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.9rem;
+      line-height: 1.1;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── GUIDES GRID ── */
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+      gap: 1.2rem;
+    }
+
+    .guide-card {
+      background: var(--surface);
+      border: 1px solid rgba(128,107,215,0.12);
+      border-radius: 12px;
+      padding: 1.6rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+
+    .guide-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple-light), var(--purple-dark));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .guide-card:hover {
+      border-color: rgba(128,107,215,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(128,107,215,0.15);
+    }
+
+    .guide-card:hover::before { opacity: 1; }
+
+    .card-icon { font-size: 1.8rem; margin-bottom: 0.9rem; }
+
+    .card-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      background: rgba(128,107,215,0.1);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.65rem;
+    }
+
+    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+
+    .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── ESSENTIALS ── */
+    .essentials {
+      background: var(--surface);
+      border-top: 1px solid rgba(128,107,215,0.1);
+      border-bottom: 1px solid rgba(128,107,215,0.1);
+      padding: 5rem 0;
+    }
+
+    .essentials > div {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      margin-top: 2.5rem;
+      border: 1px solid rgba(128,107,215,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 1.6rem 2rem;
+      border-bottom: 1px solid rgba(128,107,215,0.1);
+      transition: background 0.2s;
+    }
+
+    .step:last-child { border-bottom: none; }
+    .step:hover { background: rgba(128,107,215,0.05); }
+
+    .step-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--purple-light);
+      background: rgba(128,107,215,0.1);
+      border: 1px solid rgba(128,107,215,0.25);
+      border-radius: 6px;
+      padding: 0.25rem 0.55rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    .step-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step-content p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+    .ic {
+      font-family: 'Space Mono', monospace;
+      color: var(--purple-light);
+      background: rgba(128,107,215,0.1);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.82em;
+    }
+
+    /* ── CODE ── */
+    .code-section { background: var(--bg); }
+
+    .code-block {
+      background: var(--surface);
+      border: 1px solid rgba(128,107,215,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      font-family: 'Space Mono', monospace;
+      margin-top: 2.5rem;
+    }
+
+    .code-header {
+      background: var(--surface2);
+      padding: 0.7rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(128,107,215,0.1);
+    }
+
+    .code-dots { display: flex; gap: 0.4rem; }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+    .code-filename { color: var(--muted); font-size: 0.72rem; }
+
+    pre {
+      padding: 1.4rem;
+      overflow-x: auto;
+      line-height: 1.9;
+      color: var(--text);
+      font-size: 0.78rem;
+    }
+
+    .c-comment { color: #4d5180; }
+    .c-keyword { color: #c678dd; }
+    .c-string { color: #98c379; }
+    .c-method { color: #61afef; }
+    .c-var { color: #e06c75; }
+    .c-prop { color: #d19a66; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(128,107,215,0.1);
+      padding: 2.5rem 1.5rem;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-left {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .footer-left a { color: var(--purple-light); text-decoration: none; }
+
+    /* Subtle Discord invite — only in footer */
+    .discord-invite {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid rgba(128,107,215,0.18);
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .discord-invite:hover { color: var(--text); border-color: rgba(88,101,242,0.5); }
+    .discord-invite svg { opacity: 0.6; flex-shrink: 0; }
+    .discord-invite:hover svg { opacity: 1; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+
+      section { padding: 4rem 1.25rem; }
+      .essentials { padding: 4rem 0; }
+      .essentials > div { padding: 0 1.25rem; }
+      .step { padding: 1.2rem 1.25rem; gap: 1rem; }
+      pre { font-size: 0.7rem; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+      .hero-badge { font-size: 0.68rem; padding: 0.35rem 0.85rem; }
+      .btn { padding: 0.75rem 1.4rem; font-size: 0.85rem; }
+      .hero-actions { gap: 0.7rem; }
+      .guides-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">DisCode</a>
+    <ul class="nav-links">
+      <li><a href="#guides">Guides</a></li>
+      <li><a href="#essentials">Essentials</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="https://github.com/alogicalmind/discode" class="nav-cta">GitHub</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#guides" class="m-link">Guides</a>
+    <a href="#essentials" class="m-link">Essentials</a>
+    <a href="#examples" class="m-link">Examples</a>
+    <a href="https://github.com/alogicalmind/discode" class="m-cta">GitHub</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="grid-bg"></div>
+    <div class="hero-badge">The essentials to Discord bot creation</div>
+    <h1>Build bots.<br><span class="gradient">Ship to Discord.</span></h1>
+    <p>DisCode is your open reference for Discord bot development — setup guides, command patterns, event handling, and everything in between.</p>
+    <div class="hero-actions">
+      <a href="#essentials" class="btn btn-primary">Get Started</a>
+      <a href="#guides" class="btn btn-ghost">Browse Guides</a>
+    </div>
+  </div>
+
+  <!-- GUIDES -->
+  <section id="guides">
+    <div class="section-label">// guides</div>
+    <h2 class="section-title">Everything you need to know</h2>
+    <p class="section-sub">From setting up your dev environment to advanced slash commands and sharding — we've got it covered.</p>
+
+    <div class="guides-grid">
+      <a href="#" class="guide-card">
+        <div class="card-icon">🚀</div>
+        <span class="card-tag">Beginner</span>
+        <div class="card-title">Getting Started</div>
+        <p class="card-desc">Set up your Node.js environment, install discord.js, and create your first bot application in the Discord Developer Portal.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">⚡</div>
+        <span class="card-tag">Beginner</span>
+        <div class="card-title">Slash Commands</div>
+        <p class="card-desc">Register and handle slash commands using the Application Commands API. Learn options, subcommands, and autocomplete.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">🎛️</div>
+        <span class="card-tag">Intermediate</span>
+        <div class="card-title">Buttons &amp; Select Menus</div>
+        <p class="card-desc">Build rich interactive messages with buttons, dropdowns, and modals using the Discord Message Components API.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">📡</div>
+        <span class="card-tag">Intermediate</span>
+        <div class="card-title">Event Handling</div>
+        <p class="card-desc">Listen to gateway events, manage your client's event emitters, and keep your handler architecture clean and scalable.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">🗃️</div>
+        <span class="card-tag">Intermediate</span>
+        <div class="card-title">Working with Databases</div>
+        <p class="card-desc">Persist bot data using SQLite, MongoDB, or PostgreSQL. Learn data modelling patterns for guilds, users, and configs.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">🔀</div>
+        <span class="card-tag">Advanced</span>
+        <div class="card-title">Sharding</div>
+        <p class="card-desc">Scale your bot to 2500+ guilds with ShardingManager. Understand shard communication, restarts, and cross-shard queries.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">🔐</div>
+        <span class="card-tag">Intermediate</span>
+        <div class="card-title">Permissions &amp; Security</div>
+        <p class="card-desc">Handle permissions bitfields correctly, validate user roles, and protect your bot from common abuse vectors.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">🎵</div>
+        <span class="card-tag">Intermediate</span>
+        <div class="card-title">Voice &amp; Audio</div>
+        <p class="card-desc">Stream audio in voice channels using @discordjs/voice, manage queues, and handle voice connection lifecycle.</p>
+      </a>
+      <a href="#" class="guide-card">
+        <div class="card-icon">🚢</div>
+        <span class="card-tag">Advanced</span>
+        <div class="card-title">Deploying Your Bot</div>
+        <p class="card-desc">Host on Railway, Fly.io, or a VPS. Set up environment secrets, process managers, and zero-downtime restarts.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ESSENTIALS -->
+  <div class="essentials" id="essentials">
+    <div>
+      <div class="section-label">// essentials</div>
+      <h2 class="section-title">The essentials to Discord<br>bot creation</h2>
+      <p class="section-sub">Follow these steps to go from zero to a working, deployed Discord bot.</p>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <div class="step-content">
+            <h3>Create a Discord Application</h3>
+            <p>Head to the <a href="https://discord.com/developers/applications" style="color:var(--purple-light)">Discord Developer Portal</a>, create a new application, and generate a bot token under the Bot tab. Enable the intents your bot needs (Message Content, Server Members, etc).</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <div class="step-content">
+            <h3>Set Up Your Project</h3>
+            <p>Install Node.js (v18+) and run <code class="ic">npm init -y</code> in a fresh folder. Install discord.js with <code class="ic">npm install discord.js</code> and store your token in a <code class="ic">.env</code> file.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <div class="step-content">
+            <h3>Write Your First Bot</h3>
+            <p>Create an <code class="ic">index.js</code>, instantiate a Client, listen for the <code class="ic">ready</code> event, and log in with your token. See the example below.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <div class="step-content">
+            <h3>Register Slash Commands</h3>
+            <p>Use the REST API to register commands globally or per-guild. Define a name, description, and options, then handle interactions in your <code class="ic">interactionCreate</code> listener.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">05</span>
+          <div class="step-content">
+            <h3>Invite &amp; Test</h3>
+            <p>Use the OAuth2 URL Generator in the Developer Portal to create an invite link with <code class="ic">bot</code> + <code class="ic">applications.commands</code> scopes and add the bot to a test server.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">06</span>
+          <div class="step-content">
+            <h3>Deploy</h3>
+            <p>Push your code to GitHub and connect it to a host like Railway or Fly.io. Set your env variables in the platform dashboard and your bot stays online 24/7.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE EXAMPLE -->
+  <section id="examples" class="code-section">
+    <div class="section-label">// example</div>
+    <h2 class="section-title">Your first bot in 15 lines</h2>
+    <p class="section-sub">A minimal but complete discord.js v14 skeleton to get you going.</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots">
+          <div class="code-dot dot-red"></div>
+          <div class="code-dot dot-yellow"></div>
+          <div class="code-dot dot-green"></div>
+        </div>
+        <span class="code-filename">index.js</span>
+        <span></span>
+      </div>
+      <pre><span class="c-comment">// index.js — DisCode starter template</span>
+<span class="c-keyword">import</span> { Client, GatewayIntentBits, Events } <span class="c-keyword">from</span> <span class="c-string">'discord.js'</span>;
+<span class="c-keyword">import</span> <span class="c-string">'dotenv/config'</span>;
+
+<span class="c-keyword">const</span> <span class="c-var">client</span> = <span class="c-keyword">new</span> <span class="c-method">Client</span>({
+  <span class="c-prop">intents</span>: [GatewayIntentBits.Guilds],
+});
+
+<span class="c-var">client</span>.<span class="c-method">once</span>(Events.ClientReady, (<span class="c-var">c</span>) =&gt; {
+  console.log(<span class="c-string">`✅ Ready! Logged in as <span class="c-var">${c.user.tag}</span>`</span>);
+});
+
+<span class="c-var">client</span>.<span class="c-method">on</span>(Events.InteractionCreate, <span class="c-keyword">async</span> (<span class="c-var">interaction</span>) =&gt; {
+  <span class="c-keyword">if</span> (!<span class="c-var">interaction</span>.<span class="c-prop">isChatInputCommand</span>()) <span class="c-keyword">return</span>;
+
+  <span class="c-keyword">if</span> (<span class="c-var">interaction</span>.<span class="c-prop">commandName</span> === <span class="c-string">'ping'</span>) {
+    <span class="c-keyword">await</span> <span class="c-var">interaction</span>.<span class="c-method">reply</span>({ <span class="c-prop">content</span>: <span class="c-string">'🏓 Pong!'</span>, <span class="c-prop">ephemeral</span>: <span class="c-keyword">true</span> });
+  }
+});
+
+<span class="c-var">client</span>.<span class="c-method">login</span>(process.env.<span class="c-prop">DISCORD_TOKEN</span>);</pre>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        DisCode &nbsp;·&nbsp;
+        <a href="https://github.com/alogicalmind/discode">github.com/alogicalmind/discode</a>
+        &nbsp;·&nbsp; Built with 💜
+      </div>
+
+      <!-- Discord invite: quiet, footer-only, not distracting -->
+      <a href="https://discord.gg/YOUR_INVITE_CODE" class="discord-invite" target="_blank" rel="noopener">
+        <svg width="14" height="11" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60.105 4.898A58.55 58.55 0 0 0 45.719.455a.22.22 0 0 0-.23.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0a37.32 37.32 0 0 0-1.827-3.697.228.228 0 0 0-.23-.11A58.42 58.42 0 0 0 11.014 4.9a.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.39a.244.244 0 0 0 .093.167c6.073 4.46 11.955 7.166 17.729 8.952a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .232.028c.356.293.728.593 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.786 11.684-4.492 17.757-8.952a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.412a.18.18 0 0 0-.093-.084ZM23.725 37.307c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.583 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Zm23.591 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.825-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Z" fill="#5865F2"/>
+        </svg>
+        Join DisCode on Discord
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+</body>
+</html>
