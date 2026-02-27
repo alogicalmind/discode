@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Essentials — DisCode</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .guide-sections {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(128,107,215,0.15);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .guide-section {
+      padding: 2.2rem 2.5rem;
+      border-bottom: 1px solid rgba(128,107,215,0.1);
+      transition: background 0.2s;
+    }
+
+    .guide-section:last-child { border-bottom: none; }
+    .guide-section:hover { background: rgba(128,107,215,0.025); }
+
+    .guide-section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .guide-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--purple-light);
+      background: rgba(128,107,215,0.1);
+      border: 1px solid rgba(128,107,215,0.25);
+      border-radius: 6px;
+      padding: 0.22rem 0.55rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .guide-section-header h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .guide-intro {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.1rem;
+      max-width: 700px;
+    }
+
+    .guide-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .guide-list li {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      padding-left: 1.25rem;
+      position: relative;
+      max-width: 760px;
+    }
+
+    .guide-list li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--purple-light);
+      font-weight: 700;
+    }
+
+    .guide-list li strong { color: var(--text); }
+
+    .guide-list a {
+      color: var(--purple-light);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(128,107,215,0.3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .guide-list a:hover {
+      color: #c8b8ff;
+      border-color: #c8b8ff;
+    }
+
+    .guide-tip {
+      margin-top: 1.4rem;
+      background: rgba(128,107,215,0.06);
+      border: 1px solid rgba(128,107,215,0.18);
+      border-left: 3px solid var(--purple-light);
+      border-radius: 0 8px 8px 0;
+      padding: 0.9rem 1.2rem;
+      font-size: 0.87rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 700px;
+    }
+
+    .tip-label {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple-light);
+      margin-right: 0.5rem;
+      font-weight: 700;
+    }
+
+    .guide-sign {
+      margin-top: 2.5rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-style: italic;
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .guide-section { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">DisCode</a>
+    <ul class="nav-links">
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="essentials.html" class="active">Essentials</a></li>
+      <li><a href="examples.html">Examples</a></li>
+      <li><a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener" class="nav-cta">GitHub</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="guides.html" class="m-link">Guides</a>
+    <a href="essentials.html" class="m-link active">Essentials</a>
+    <a href="examples.html" class="m-link">Examples</a>
+    <a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener" class="m-cta">GitHub</a>
+  </div>
+
+  <div class="page">
+    <div class="page-hero">
+      <div class="section-label">// essentials</div>
+      <h1>The essentials to<br><span class="gradient">Discord bot creation</span></h1>
+      <p>Everything you need — from registering your bot to keeping it online 24/7. Curated by the DisCode founder.</p>
+    </div>
+
+    <div class="content">
+      <div class="guide-sections">
+
+        <!-- 01 -->
+        <div class="guide-section">
+          <div class="guide-section-header">
+            <span class="guide-num">01</span>
+            <h2>Official Foundations</h2>
+          </div>
+          <p class="guide-intro">Before you write a single line of code, you need to register your bot with Discord.</p>
+          <ul class="guide-list">
+            <li><strong><a href="https://discord.com/developers/applications" target="_blank" rel="noopener">Discord Developer Portal</a>:</strong> The "command center" where you create your application, get your bot token, and enable Intents (permissions like reading messages or member lists).</li>
+            <li><strong><a href="https://docs.discord.com/developers/intro" target="_blank" rel="noopener">Discord API Docs</a>:</strong> The holy grail. It's technical, but it's the final word on what the Discord API can and cannot do.</li>
+          </ul>
+        </div>
+
+        <!-- 02 -->
+        <div class="guide-section">
+          <div class="guide-section-header">
+            <span class="guide-num">02</span>
+            <h2>Coding Libraries (Wrappers)</h2>
+          </div>
+          <p class="guide-intro">Don't reinvent the wheel. Use a library that handles the heavy lifting of talking to Discord's servers.</p>
+          <ul class="guide-list">
+            <li><strong>JavaScript:</strong> <a href="https://discord.js.org/" target="_blank" rel="noopener">Discord.js</a> is the industry standard. It's fast, powerful, and has a massive community.</li>
+            <li><strong>Python:</strong> <a href="https://discordpy.readthedocs.io/en/stable/" target="_blank" rel="noopener">Discord.py</a> (and its popular forks like <a href="https://pycord.dev/" target="_blank" rel="noopener">Pycord</a> or <a href="https://disnake.dev/" target="_blank" rel="noopener">Disnake</a>) is incredibly beginner-friendly and readable.</li>
+            <li><strong>Java:</strong> <a href="https://github.com/discord-jda/JDA" target="_blank" rel="noopener">JDA (Java Discord API)</a> is the go-to if you prefer a more structured, object-oriented approach.</li>
+          </ul>
+        </div>
+
+        <!-- 03 -->
+        <div class="guide-section">
+          <div class="guide-section-header">
+            <span class="guide-num">03</span>
+            <h2>Top-Tier Free Learning</h2>
+          </div>
+          <ul class="guide-list">
+            <li><strong>YouTube:</strong> Look for channels like Tech with Tim (Python), CodeWithHarry (AI integration), or The Coding Train (JavaScript).</li>
+            <li><strong><a href="https://www.freecodecamp.org/" target="_blank" rel="noopener">FreeCodeCamp</a>:</strong> Full-length courses on Node.js and Python specifically tailored to building and hosting Discord bots.</li>
+            <li><strong><a href="https://discordjs.guide/legacy" target="_blank" rel="noopener">Discord.js Guide</a>:</strong> If you choose JavaScript, this is the unofficial manual. It walks you through every step from "Hello World" to complex databases.</li>
+          </ul>
+        </div>
+
+        <!-- 04 -->
+        <div class="guide-section">
+          <div class="guide-section-header">
+            <span class="guide-num">04</span>
+            <h2>Essential Tools &amp; IDEs</h2>
+          </div>
+          <ul class="guide-list">
+            <li><strong><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code (VS Code)</a>:</strong> The undisputed king of code editors. Install the "Discord" and "Prettier" extensions to make your life easier.</li>
+            <li><strong><a href="https://www.postman.com/" target="_blank" rel="noopener">Postman</a>:</strong> Great for testing API endpoints if you're building a bot that pulls data from external sites (like weather or game stats).</li>
+            <li><strong><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>:</strong> Essential for version control. Plus, many free hosting services require you to have your code in a GitHub repository.</li>
+          </ul>
+        </div>
+
+        <!-- 05 -->
+        <div class="guide-section">
+          <div class="guide-section-header">
+            <span class="guide-num">05</span>
+            <h2>Free Hosting (24/7 Uptime)</h2>
+          </div>
+          <p class="guide-intro">Hosting is where "free" gets tricky. You don't want your bot to go offline the moment you close your laptop.</p>
+          <ul class="guide-list">
+            <li><strong><a href="https://www.oracle.com/cloud/free/" target="_blank" rel="noopener">Oracle Cloud Free Tier</a>:</strong> Arguably the best free VPS in 2026. It gives you a powerful "Always Free" instance that can run multiple bots easily.</li>
+            <li><strong><a href="https://aws.amazon.com/free/" target="_blank" rel="noopener">AWS Free Tier</a>:</strong> Offers an EC2 t2.micro instance for 12 months. Excellent for learning, but it expires after a year.</li>
+            <li><strong><a href="https://sneakyhub.com/" target="_blank" rel="noopener">Phoenix Dash / SneakyHub</a>:</strong> Community-driven free hosts that are popular for hobbyist bots.</li>
+          </ul>
+          <div class="guide-tip">
+            <span class="tip-label">Pro-Tip</span>
+            Stay away from "free" hosts that require you to "click a button every hour" to keep the bot alive. They are more trouble than they're worth.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="guide-sign">— From the desk of the Discode Founder.</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        DisCode &nbsp;·&nbsp;
+        <a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener">github.com/alogicalmind/discode</a>
+        &nbsp;·&nbsp; Built with 💜
+      </div>
+      <a href="https://discord.gg/YOUR_INVITE_CODE" class="discord-invite" target="_blank" rel="noopener">
+        <svg width="14" height="11" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.719.455a.22.22 0 0 0-.23.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0a37.32 37.32 0 0 0-1.827-3.697.228.228 0 0 0-.23-.11A58.42 58.42 0 0 0 11.014 4.9a.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.39a.244.244 0 0 0 .093.167c6.073 4.46 11.955 7.166 17.729 8.952a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .232.028c.356.293.728.593 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.786 11.684-4.492 17.757-8.952a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.412a.18.18 0 0 0-.093-.084ZM23.725 37.307c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.583 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Zm23.591 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.825-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Z" fill="#5865F2"/></svg>
+        Join DisCode on Discord
+      </a>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+</body>
+</html>
