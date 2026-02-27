@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guides — DisCode</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.2rem;
+    }
+
+    .filter-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid rgba(128,107,215,0.15);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      color: var(--text);
+      border-color: var(--purple-light);
+      background: rgba(128,107,215,0.1);
+    }
+
+    /* Guides grid */
+    .guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+      gap: 1.2rem;
+    }
+
+    .guide-card {
+      background: var(--surface);
+      border: 1px solid rgba(128,107,215,0.12);
+      border-radius: 12px;
+      padding: 1.7rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+
+    .guide-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--purple-light), var(--purple-dark));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .guide-card:hover {
+      border-color: rgba(128,107,215,0.38);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(128,107,215,0.13);
+    }
+
+    .guide-card:hover::before { opacity: 1; }
+
+    .card-icon { font-size: 1.9rem; margin-bottom: 0.9rem; line-height: 1; }
+
+    .card-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.7rem;
+    }
+
+    .tag-beginner     { color: #52c77f; background: rgba(82,199,127,0.1); }
+    .tag-intermediate { color: var(--purple-light); background: rgba(128,107,215,0.1); }
+    .tag-advanced     { color: #f0a855; background: rgba(240,168,85,0.1); }
+
+    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .card-desc  { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+    /* hidden cards */
+    .guide-card[data-hidden="true"] { display: none; }
+
+    @media (max-width: 480px) {
+      .guides-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">DisCode</a>
+    <ul class="nav-links">
+      <li><a href="guides.html" class="active">Guides</a></li>
+      <li><a href="essentials.html">Essentials</a></li>
+      <li><a href="examples.html">Examples</a></li>
+      <li><a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener" class="nav-cta">GitHub</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="guides.html" class="m-link active">Guides</a>
+    <a href="essentials.html" class="m-link">Essentials</a>
+    <a href="examples.html" class="m-link">Examples</a>
+    <a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener" class="m-cta">GitHub</a>
+  </div>
+
+  <div class="page">
+    <div class="page-hero">
+      <div class="section-label">// guides</div>
+      <h1>Everything you<br><span class="gradient">need to know</span></h1>
+      <p>From setting up your dev environment to advanced sharding — pick a topic and dive in.</p>
+    </div>
+
+    <div class="content">
+
+      <!-- Filter buttons -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="beginner">Beginner</button>
+        <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+        <button class="filter-btn" data-filter="advanced">Advanced</button>
+      </div>
+
+      <div class="guides-grid" id="guidesGrid">
+
+        <a href="#" class="guide-card" data-level="beginner">
+          <div class="card-icon">🚀</div>
+          <span class="card-tag tag-beginner">Beginner</span>
+          <div class="card-title">Getting Started</div>
+          <p class="card-desc">Set up your Node.js environment, install discord.js, and create your first bot application in the Discord Developer Portal.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="beginner">
+          <div class="card-icon">⚡</div>
+          <span class="card-tag tag-beginner">Beginner</span>
+          <div class="card-title">Slash Commands</div>
+          <p class="card-desc">Register and handle slash commands using the Application Commands API. Learn options, subcommands, and autocomplete.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="intermediate">
+          <div class="card-icon">🎛️</div>
+          <span class="card-tag tag-intermediate">Intermediate</span>
+          <div class="card-title">Buttons &amp; Select Menus</div>
+          <p class="card-desc">Build rich interactive messages with buttons, dropdowns, and modals using the Discord Message Components API.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="intermediate">
+          <div class="card-icon">📡</div>
+          <span class="card-tag tag-intermediate">Intermediate</span>
+          <div class="card-title">Event Handling</div>
+          <p class="card-desc">Listen to gateway events, manage your client's event emitters, and keep your handler architecture clean and scalable.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="intermediate">
+          <div class="card-icon">🗃️</div>
+          <span class="card-tag tag-intermediate">Intermediate</span>
+          <div class="card-title">Working with Databases</div>
+          <p class="card-desc">Persist bot data using SQLite, MongoDB, or PostgreSQL. Learn data modelling patterns for guilds, users, and configs.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="advanced">
+          <div class="card-icon">🔀</div>
+          <span class="card-tag tag-advanced">Advanced</span>
+          <div class="card-title">Sharding</div>
+          <p class="card-desc">Scale your bot to 2500+ guilds with ShardingManager. Understand shard communication, restarts, and cross-shard queries.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="intermediate">
+          <div class="card-icon">🔐</div>
+          <span class="card-tag tag-intermediate">Intermediate</span>
+          <div class="card-title">Permissions &amp; Security</div>
+          <p class="card-desc">Handle permissions bitfields correctly, validate user roles, and protect your bot from common abuse vectors.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="intermediate">
+          <div class="card-icon">🎵</div>
+          <span class="card-tag tag-intermediate">Intermediate</span>
+          <div class="card-title">Voice &amp; Audio</div>
+          <p class="card-desc">Stream audio in voice channels using @discordjs/voice, manage queues, and handle voice connection lifecycle.</p>
+        </a>
+
+        <a href="#" class="guide-card" data-level="advanced">
+          <div class="card-icon">🚢</div>
+          <span class="card-tag tag-advanced">Advanced</span>
+          <div class="card-title">Deploying Your Bot</div>
+          <p class="card-desc">Host on Railway, Fly.io, or a VPS. Set up environment secrets, process managers, and zero-downtime restarts.</p>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        DisCode &nbsp;·&nbsp;
+        <a href="https://github.com/alogicalmind/discode" target="_blank" rel="noopener">github.com/alogicalmind/discode</a>
+        &nbsp;·&nbsp; Built with 💜
+      </div>
+      <a href="https://discord.gg/YOUR_INVITE_CODE" class="discord-invite" target="_blank" rel="noopener">
+        <svg width="14" height="11" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.719.455a.22.22 0 0 0-.23.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0a37.32 37.32 0 0 0-1.827-3.697.228.228 0 0 0-.23-.11A58.42 58.42 0 0 0 11.014 4.9a.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.39a.244.244 0 0 0 .093.167c6.073 4.46 11.955 7.166 17.729 8.952a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .232.028c.356.293.728.593 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.786 11.684-4.492 17.757-8.952a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.412a.18.18 0 0 0-.093-.084ZM23.725 37.307c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.583 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Zm23.591 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.825-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156Z" fill="#5865F2"/></svg>
+        Join DisCode on Discord
+      </a>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    // Filter functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.guide-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.level === filter;
+          card.style.display = match ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
