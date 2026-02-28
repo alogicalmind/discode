@@ -7,7 +7,7 @@
   <title>DisCode — Discord Bot Development</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
-    /* ── HERO ── */
+    /* HERO */
     .hero {
       min-height: calc(100vh - 4.5rem);
       display: flex;
@@ -15,7 +15,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 4rem 1.5rem 4rem;
+      padding: 4rem 2rem;
       position: relative;
       overflow: hidden;
     }
@@ -24,8 +24,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(128,107,215,0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(128,107,215,0.045) 1px, transparent 1px);
+        linear-gradient(rgba(124,111,247,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,111,247,0.05) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
       mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
@@ -34,9 +34,9 @@
     .hero::before {
       content: '';
       position: absolute;
-      width: min(900px, 150vw);
-      height: min(900px, 150vw);
-      background: radial-gradient(circle, rgba(128,107,215,0.2) 0%, transparent 70%);
+      width: min(800px, 140vw);
+      height: min(800px, 140vw);
+      background: radial-gradient(circle, rgba(124,111,247,0.15) 0%, transparent 70%);
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
@@ -46,86 +46,79 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(128,107,215,0.12);
-      border: 1px solid rgba(128,107,215,0.3);
+      background: rgba(124, 111, 247, 0.1);
+      border: 1px solid rgba(124, 111, 247, 0.28);
       border-radius: 100px;
-      padding: 0.4rem 1rem;
-      font-size: 0.75rem;
-      font-family: 'Space Mono', monospace;
-      color: var(--purple-light);
-      margin-bottom: 1.8rem;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #a99ff8;
+      margin-bottom: 2rem;
       animation: fadeDown 0.6s ease both;
     }
 
     .hero-badge::before {
       content: '';
-      width: 6px; height: 6px;
+      width: 7px; height: 7px;
       background: #5865f2;
       border-radius: 50%;
-      box-shadow: 0 0 8px #5865f2;
+      box-shadow: 0 0 10px #5865f2;
       flex-shrink: 0;
     }
 
     .hero h1 {
-      font-size: clamp(2.8rem, 11vw, 7.5rem);
+      font-size: clamp(3rem, 11vw, 7.5rem);
       font-weight: 800;
-      line-height: 0.93;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.8rem;
       animation: fadeDown 0.6s 0.1s ease both;
     }
 
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--purple-light) 0%, #c8b8ff 40%, var(--purple-dark) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
     .hero > p {
-      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-      color: var(--muted);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-secondary);
       max-width: 520px;
-      line-height: 1.7;
-      margin-bottom: 2.2rem;
+      line-height: 1.85;
+      margin-bottom: 2.5rem;
       animation: fadeDown 0.6s 0.2s ease both;
       position: relative;
     }
 
     .hero-actions {
       display: flex;
-      gap: 0.9rem;
+      gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
       animation: fadeDown 0.6s 0.3s ease both;
       position: relative;
     }
 
-    /* ── FEATURE CARDS ── */
+    /* FEATURE CARDS */
     .features {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 5rem 2rem;
+      padding: 6rem 2.5rem;
     }
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-      gap: 1.2rem;
-      margin-top: 2.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+      gap: 1.5rem;
+      margin-top: 2.8rem;
     }
 
     .feature-card {
       background: var(--surface);
-      border: 1px solid rgba(128,107,215,0.12);
-      border-radius: 14px;
-      padding: 2rem 1.8rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.4rem 2.2rem;
       transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1rem;
       position: relative;
       overflow: hidden;
     }
@@ -135,50 +128,48 @@
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--purple-light), var(--purple-dark));
+      background: linear-gradient(90deg, var(--purple), var(--purple-dim));
       opacity: 0;
       transition: opacity 0.2s;
     }
 
     .feature-card:hover {
-      border-color: rgba(128,107,215,0.35);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(128,107,215,0.13);
+      border-color: var(--border);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(124, 111, 247, 0.12);
     }
 
     .feature-card:hover::after { opacity: 1; }
 
-    .feature-icon {
-      font-size: 2rem;
-      line-height: 1;
-    }
+    .feature-icon { font-size: 2.2rem; line-height: 1; }
 
     .feature-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--text);
     }
 
     .feature-desc {
-      font-size: 0.86rem;
+      font-size: 0.95rem;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.8;
       flex: 1;
     }
 
     .feature-link {
-      font-family: 'Space Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
-      color: var(--purple-light);
+      color: var(--purple);
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      margin-top: 0.4rem;
+      margin-top: 0.2rem;
     }
 
     .feature-link::after { content: ' →'; }
 
     @media (max-width: 768px) {
-      .features { padding: 3.5rem 1.25rem; }
+      .features { padding: 4rem 1.5rem; }
     }
   </style>
 </head>

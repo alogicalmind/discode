@@ -10,98 +10,99 @@
     .examples-list {
       display: flex;
       flex-direction: column;
-      gap: 2.5rem;
+      gap: 3.5rem;
     }
-
-    .example-block {}
 
     .example-meta {
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.9rem;
     }
 
     .example-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--purple-light);
-      background: rgba(128,107,215,0.1);
-      border: 1px solid rgba(128,107,215,0.25);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--purple);
+      background: rgba(124, 111, 247, 0.12);
+      border: 1px solid rgba(124, 111, 247, 0.25);
       border-radius: 6px;
-      padding: 0.22rem 0.55rem;
+      padding: 0.25rem 0.6rem;
       flex-shrink: 0;
+      letter-spacing: 0.05em;
     }
 
     .example-title {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
     }
 
     .example-desc {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 680px;
-      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      max-width: 700px;
+      margin-bottom: 1.3rem;
     }
 
     /* Code block */
     .code-block {
       background: var(--surface);
-      border: 1px solid rgba(128,107,215,0.15);
-      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
       overflow: hidden;
-      font-family: 'Space Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .code-header {
       background: var(--surface2);
-      padding: 0.65rem 1.4rem;
+      padding: 0.8rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(128,107,215,0.1);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .code-dots { display: flex; gap: 0.4rem; }
-    .code-dot  { width: 10px; height: 10px; border-radius: 50%; }
+    .code-dots { display: flex; gap: 0.45rem; }
+    .code-dot  { width: 11px; height: 11px; border-radius: 50%; }
     .dot-red    { background: #ff5f57; }
     .dot-yellow { background: #febc2e; }
     .dot-green  { background: #28c840; }
 
     .code-filename {
       color: var(--muted);
-      font-size: 0.72rem;
+      font-size: 0.73rem;
+      letter-spacing: 0.03em;
     }
 
     .copy-btn {
-      font-family: 'Space Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--muted);
       background: none;
-      border: 1px solid rgba(128,107,215,0.2);
-      border-radius: 4px;
-      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0.22rem 0.65rem;
       cursor: pointer;
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .copy-btn:hover { color: var(--text); border-color: var(--purple-light); }
+    .copy-btn:hover { color: var(--text); border-color: var(--purple); }
     .copy-btn.copied { color: #52c77f; border-color: #52c77f; }
 
     pre {
-      padding: 1.5rem;
+      padding: 1.8rem 1.8rem;
       overflow-x: auto;
-      line-height: 1.9;
+      line-height: 2;
       color: var(--text);
-      font-size: 0.8rem;
+      font-size: 0.86rem;
     }
 
-    .c-comment { color: #4d5180; }
+    .c-comment { color: #4d5a80; }
     .c-keyword  { color: #c678dd; }
     .c-string   { color: #98c379; }
     .c-method   { color: #61afef; }
@@ -110,7 +111,7 @@
     .c-num      { color: #d19a66; }
 
     @media (max-width: 768px) {
-      pre { font-size: 0.72rem; }
+      pre { font-size: 0.78rem; padding: 1.4rem; }
     }
   </style>
 </head>
@@ -326,7 +327,7 @@ console.<span class="c-method">log</span>(<span class="c-string">'✅ Commands r
   <footer>
     <div class="footer-inner">
       <div class="footer-left">
-        DisCode &nbsp;·&nbsp; &nbsp;·&nbsp; Built with 💜
+        DisCode &nbsp;·&nbsp; Built with 💜
       </div>
     </div>
   </footer>

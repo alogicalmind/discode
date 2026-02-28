@@ -10,125 +10,131 @@
     .guide-sections {
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(128,107,215,0.15);
-      border-radius: 14px;
-      overflow: hidden;
+      gap: 1.5rem;
     }
 
     .guide-section {
-      padding: 2.2rem 2.5rem;
-      border-bottom: 1px solid rgba(128,107,215,0.1);
-      transition: background 0.2s;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.8rem 3rem;
+      transition: border-color 0.2s;
     }
 
-    .guide-section:last-child { border-bottom: none; }
-    .guide-section:hover { background: rgba(128,107,215,0.025); }
+    .guide-section:hover {
+      border-color: var(--border);
+    }
 
     .guide-section-header {
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.4rem;
     }
 
     .guide-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--purple-light);
-      background: rgba(128,107,215,0.1);
-      border: 1px solid rgba(128,107,215,0.25);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--purple);
+      background: rgba(124, 111, 247, 0.12);
+      border: 1px solid rgba(124, 111, 247, 0.25);
       border-radius: 6px;
-      padding: 0.22rem 0.55rem;
+      padding: 0.25rem 0.6rem;
       white-space: nowrap;
       flex-shrink: 0;
+      letter-spacing: 0.05em;
     }
 
     .guide-section-header h2 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
     }
 
     .guide-intro {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.1rem;
-      max-width: 700px;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 1.4rem;
+      max-width: 720px;
     }
 
     .guide-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
     }
 
     .guide-list li {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.65;
-      padding-left: 1.25rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      padding-left: 1.4rem;
       position: relative;
-      max-width: 760px;
+      max-width: 780px;
     }
 
     .guide-list li::before {
       content: '–';
       position: absolute;
       left: 0;
-      color: var(--purple-light);
+      color: var(--purple);
       font-weight: 700;
     }
 
-    .guide-list li strong { color: var(--text); }
+    .guide-list li strong {
+      color: var(--text);
+      font-weight: 600;
+    }
 
     .guide-list a {
-      color: var(--purple-light);
+      color: #a99ff8;
       text-decoration: none;
-      border-bottom: 1px solid rgba(128,107,215,0.3);
+      border-bottom: 1px solid rgba(169, 159, 248, 0.3);
       transition: color 0.2s, border-color 0.2s;
     }
 
     .guide-list a:hover {
-      color: #c8b8ff;
-      border-color: #c8b8ff;
+      color: #c8c0ff;
+      border-color: #c8c0ff;
     }
 
     .guide-tip {
-      margin-top: 1.4rem;
-      background: rgba(128,107,215,0.06);
-      border: 1px solid rgba(128,107,215,0.18);
-      border-left: 3px solid var(--purple-light);
-      border-radius: 0 8px 8px 0;
-      padding: 0.9rem 1.2rem;
-      font-size: 0.87rem;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 700px;
+      margin-top: 1.6rem;
+      background: rgba(124, 111, 247, 0.07);
+      border: 1px solid rgba(124, 111, 247, 0.2);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 10px 10px 0;
+      padding: 1.1rem 1.4rem;
+      font-size: 0.97rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 720px;
     }
 
     .tip-label {
       display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.63rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--purple-light);
+      color: var(--purple);
       margin-right: 0.5rem;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .guide-sign {
-      margin-top: 2.5rem;
-      font-size: 0.88rem;
+      margin-top: 3rem;
+      font-size: 0.93rem;
       color: var(--muted);
       font-style: italic;
       text-align: right;
     }
 
     @media (max-width: 768px) {
-      .guide-section { padding: 1.5rem 1.25rem; }
+      .guide-section { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -244,7 +250,7 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-left">
-        DisCode &nbsp;·&nbsp; &nbsp;·&nbsp; Built with 💜
+        DisCode &nbsp;·&nbsp; Built with 💜
       </div>
     </div>
   </footer>

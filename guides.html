@@ -12,19 +12,19 @@
       display: flex;
       gap: 0.6rem;
       flex-wrap: wrap;
-      margin-bottom: 2.2rem;
+      margin-bottom: 2.5rem;
     }
 
     .filter-btn {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--muted);
       background: var(--surface);
-      border: 1px solid rgba(128,107,215,0.15);
+      border: 1px solid var(--border-subtle);
       border-radius: 100px;
-      padding: 0.4rem 1rem;
+      padding: 0.45rem 1.1rem;
       cursor: pointer;
       transition: color 0.2s, border-color 0.2s, background 0.2s;
     }
@@ -32,22 +32,22 @@
     .filter-btn:hover,
     .filter-btn.active {
       color: var(--text);
-      border-color: var(--purple-light);
-      background: rgba(128,107,215,0.1);
+      border-color: var(--purple);
+      background: rgba(124, 111, 247, 0.1);
     }
 
     /* Guides grid */
     .guides-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-      gap: 1.2rem;
+      gap: 1.4rem;
     }
 
     .guide-card {
       background: var(--surface);
-      border: 1px solid rgba(128,107,215,0.12);
-      border-radius: 12px;
-      padding: 1.7rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2rem 2rem;
       transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
       position: relative;
       overflow: hidden;
@@ -61,40 +61,50 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--purple-light), var(--purple-dark));
+      background: linear-gradient(90deg, var(--purple), var(--purple-dim));
       opacity: 0;
       transition: opacity 0.2s;
     }
 
     .guide-card:hover {
-      border-color: rgba(128,107,215,0.38);
+      border-color: var(--border);
       transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(128,107,215,0.13);
+      box-shadow: 0 12px 40px rgba(124, 111, 247, 0.12);
     }
 
     .guide-card:hover::before { opacity: 1; }
 
-    .card-icon { font-size: 1.9rem; margin-bottom: 0.9rem; line-height: 1; }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; line-height: 1; }
 
     .card-tag {
       display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.63rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
+      padding: 0.22rem 0.6rem;
       border-radius: 4px;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.85rem;
     }
 
     .tag-beginner     { color: #52c77f; background: rgba(82,199,127,0.1); }
-    .tag-intermediate { color: var(--purple-light); background: rgba(128,107,215,0.1); }
+    .tag-intermediate { color: #a99ff8; background: rgba(124,111,247,0.1); }
     .tag-advanced     { color: #f0a855; background: rgba(240,168,85,0.1); }
 
-    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .card-desc  { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
 
-    /* hidden cards */
+    .card-desc {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
     .guide-card[data-hidden="true"] { display: none; }
 
     @media (max-width: 480px) {
@@ -213,7 +223,7 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-left">
-        DisCode &nbsp;·&nbsp; &nbsp;·&nbsp; Built with 💜
+        DisCode &nbsp;·&nbsp; Built with 💜
       </div>
     </div>
   </footer>
